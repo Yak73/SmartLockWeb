@@ -54,3 +54,11 @@ ClassMethod Authorization() As %Status
     Return result
 }
 
+ClassMethod GetListOfLocksForUser(UserLogin) As %Status
+{
+    do ##class(SmartLock.Backend.Programmability.Select).SelectFromUsers2LocksForUser(.ListOfLocksForUser, UserLogin)
+    write ListOfLocksForUser.%ToJSON()
+    Return $$$OK
+}
+
+}
