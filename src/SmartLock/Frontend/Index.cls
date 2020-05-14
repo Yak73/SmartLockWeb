@@ -56,7 +56,7 @@ ClassMethod body() As %Status
 						{view: "text", width:"500", name: "password", label: "Password"},
 						{view:"button", width:"500", value:"Log In", id:"btn", click:function(){
 							var values = this.getFormView().getValues();
-							webix.ajax().post("/smartlockapi/registration", values).then(function(response){
+							webix.ajax().post("/smartlockapi/authorization", values).then(function(response){
 								var body = response.text();
 									if(body==1){
 										webix.message("Successfully logged in");
@@ -67,8 +67,10 @@ ClassMethod body() As %Status
 								}
 							);
 						}},
-						{view:"button", width:"500", value:"Enter", id:"btn", click:function(){
+						{view:"button", width:"500", value:"Enter", id:"btn2", click:function(){
+
 							location.href='SmartLock.FrontEnd.Main.cls';
+
 						}}
 				
 					]

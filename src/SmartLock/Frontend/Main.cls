@@ -1,4 +1,3 @@
-
 Class SmartLock.FrontEnd.Main Extends %CSP.Page
 {
 
@@ -48,10 +47,10 @@ ClassMethod body() As %Status
 			{	
 				id:"table",
 				view:"datatable",
-				save:"rest->/someUrl",
+				/*save:"rest->/someUrl",
 				url:function(params){
 					return webix.ajax("/downloadUrl");
-				},
+				},*/
 				autoConfig:true,
 				data:locksTable ,
 				css:"webix_data_border webix_header_border",

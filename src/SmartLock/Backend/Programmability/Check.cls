@@ -14,7 +14,7 @@ ClassMethod IsUserLoginExist(Login As %String) As %Boolean
     }
 }
 
-ClassMethod IsCorrectUserLoginAndPwd(Login As %String, Pwd As %String) As %Status
+ClassMethod IsCorrectUserLoginAndPwd(Login As %String, Pwd As %String) As %Boolean
 {
     &sql(SELECT COUNT(1) INTO :exist FROM SmartLock_Backend_Tables.Users WHERE UserLogin = :Login AND UserPassword = :Pwd)
     if (exist)

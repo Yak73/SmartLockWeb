@@ -5,16 +5,19 @@ XData UrlMap [ XMLNamespace = "http://www.intersystems.com/urlmap" ]
 {
 <Routes>
   <Route Url="/registration" Method="POST" Call="Registration"/>
+  <Route Url="/authorization" Method="POST" Call="Authorization"/>
   <Route Url="/test" Method="GET" Call="Test"/>
 </Routes>
 }
 
+/// "Возвращает" (печатает) "this is test"
 ClassMethod Test() As %Status
 {
     write "this is test"
     Return $$$OK
 }
 
+/// Регистрирует юзера с логином login и паролем password, если логин свободен, иначе выводит "Логин занят"
 ClassMethod Registration() As %Status
 {
     set obj = {}
@@ -29,11 +32,12 @@ ClassMethod Registration() As %Status
     else
     {
         set result = ##class(SmartLock.Backend.Programmability.DataMgr).AddUser(obj)
-        write "ok"
+        write 1
     }
     Return result
 }
 
+/// "Возвращает" (печатает) для юзера с логином login и паролем password "ok" если данные корректны, и "Неправильный Логин или Пароль" иначе
 ClassMethod Authorization() As %Status
 {
     set obj = {}
@@ -42,8 +46,8 @@ ClassMethod Authorization() As %Status
     set correct = ##class(SmartLock.Backend.Programmability.Check).IsCorrectUserLoginAndPwd(obj.UserLogin, obj.UserPassword)
     if (correct)
     {
-        write "ok"
-        set result = 0
+        write 1
+        set result = 1
     }     
     else
     {   
@@ -54,6 +58,7 @@ ClassMethod Authorization() As %Status
     Return result
 }
 
+/// "Возвращает" (печатает) для юзера с логином UserLogin список его замков (элемент списка - пользовательское название конкретного замка) 
 ClassMethod GetListOfLocksForUser(UserLogin) As %Status
 {
     do ##class(SmartLock.Backend.Programmability.Select).SelectFromUsers2LocksForUser(.ListOfLocksForUser, UserLogin)
