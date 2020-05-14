@@ -37,18 +37,66 @@ ClassMethod body() As %Status
         webix.message({text: 'Error on save' + rawData, type: 'error'})
     }
 
-    var ui_template = {
-      id:"tab2_content",
-      view:"form",
-      width: "400",
-      elements:[
-        {view: "text", name: "login", label: "Login"},
-        {view: "text", name: "password", label: "Password"},
-        { view:"button",  value:"Submit", id:"btn", click:function(){
-          var values = this.getFormView().getValues();
-          var answer = webix.ajax().post("/smartlockapi/registration", values, submitResult);
-        }}
-    ]};
+   	var ui_template = {
+			rows:[
+			{	width:"500",
+				view:"tabbar",
+				multiview:true,
+				value:"logRegPage",
+				options:[
+					{id:"log", value:"Log In"},
+					{id:"reg", value:"Registration"}
+				],
+			},
+			{
+				 animate:true, cells:[
+				 {
+					 id:"log", view:"form",  elements:[
+						{view: "text", width:"500", name: "login", label: "Login"},
+						{view: "text", width:"500", name: "password", label: "Password"},
+						{view:"button", width:"500", value:"Log In", id:"btn", click:function(){
+							var values = this.getFormView().getValues();
+							webix.ajax().post("/smartlockapi/registration", values).then(function(response){
+								var body = response.text();
+									if(body==1){
+										webix.message("Successfully logged in");
+										// a href => main page
+									} else{
+										webix.message("Failed to log in");
+									}
+								}
+							);
+						}},
+						{view:"button", width:"500", value:"Enter", id:"btn", click:function(){
+							location.href='main.html';
+						}}
+				
+					]
+				 },
+				 {
+					  id:"reg", view:"form",  elements:[
+						{view: "text", width:"500",name: "login", label: "Login"},
+						{view: "text", width:"500",name: "password", label: "Password"},
+						{view:"button", width:"500",value:"Registration", id:"regButton",
+							click:function(){
+							var values = this.getFormView().getValues();
+							webix.ajax().post("/smartlockapi/registration", values).then(function(response){
+								var body = response.text();
+									if(body==1){
+										webix.message("Successfully registered");
+									} else{
+										webix.message("Failed to register, please try another login");
+									}
+								}
+							);
+						}}
+					]
+				 }
+				]
+			}
+			]
+				
+		};
     
     webix.ready(function(){
       webix.ui(ui_template);
