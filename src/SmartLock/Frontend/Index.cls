@@ -68,7 +68,7 @@ ClassMethod body() As %Status
 							);
 						}},
 						{view:"button", width:"500", value:"Enter", id:"btn", click:function(){
-							location.href='main.html';
+							location.href='SmartLock.FrontEnd.Main.cls';
 						}}
 				
 					]
