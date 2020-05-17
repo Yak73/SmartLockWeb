@@ -29,48 +29,130 @@ ClassMethod body() As %Status
 {
    &JS<
     <script type="text/javascript">
-  function loadData(){
-			
-			$$(table).parse(tableData);
+
+		function loadHistory(cell){
+			var lockName = locksTable.find(x => x.id == cell.row).name;
+		
+			webix.ajax().get("/smartlockapi/get-history", lockName).then(function(response){
+					$$("historyView").parse(response.json());
+					$$("historyView").show();
+			});
 		}
 		
-		var tableData;
-		
 		var locksTable=[
-		{id:1, name:"Замок_1", action:"", history:"View"},
-		{id:2, name:"Замок_2", action:"", history:"View"},
-		{id:3, name:"Замок_3", action:"", history:"View"}
+		{id:"1", name:"Lock_1", action:"", history:"View"},
+		{id:"2", name:"Lock_2", action:"", history:"View"},
+		{id:"3", name:"Lock_3", action:"", history:"View"}
 		]	
+		
+		webix.ui({
+			width:"400",
+			view:"window",
+			id:"createForm",
+			head:"Create",
+			modal:true,
+			position:"center",
+			body:
+			{view:"form", id:"editform", elements:[
+				{ view:"text", label:"Login", name:"UserLogin"},
+				{ view:"text", width:"400", label:"New lock's login", name:"LockLogin"},
+				{ view:"text", label:"New lock's name", name:"LockLabelByUser"},
+				{ view:"text", label:"Password", name:"LockPassword"},
+				{ cols:[
+					{ view:"button", value:"Cancel", click:function(){
+						this.getTopParentView().hide(); 
+					}},
+				{ view:"button", type:"form", value:"Save", click:function(){
+					var values = this.getFormView().getValues();
+						webix.ajax().post("/smartlockapi/create-lock", values).then(function(response){
+							var body = response.text();
+								if(body == 1){
+									webix.message("Successfully created");
+								} else {
+									webix.message("Failed to create");
+								}
+							}
+						);
+							
+					this.getTopParentView().hide(); 
+					// reload table
+				}}
+				]}
+			],
+			elementsConfig: {
+				labelPosition: "top",
+			}
+			}
+		});
+		
+		webix.ui({
+			width:"400",
+			view:"window",
+			id:"historyView",
+			head:"History",
+		//	data:historyTableData,
+			modal:true,
+			position:"center",
+			body:
+			{ view:"form", rows:[
+				{view:"datatable", id:"historyForm", columns:[
+					{id:"historyView",  header:["Date"]},
+					{id:"actionDate",    header:["Action"]},
+				]
+				},
+				{ view:"button", value:"Cancel", click:function(){
+						this.getTopParentView().hide(); 
+					}},
+			]
+			}
+			
+		});
 		
 		var ui_template = {
 			rows:[
 			{	
+				height:"200",
 				id:"table",
 				view:"datatable",
-				/*save:"rest->/someUrl",
+				save:"rest->/someUrl",
+				// add user's login to params
 				url:function(params){
-					return webix.ajax("/downloadUrl");
-				},*/
+					return webix.ajax().get("/smartlockapi/locks-table-for-user", params);
+				},
 				autoConfig:true,
+				// remove, must download from url, need to test
 				data:locksTable ,
 				css:"webix_data_border webix_header_border",
 				columns:[
-				{id:"id", width:"100",   header:["Number"]},
 				{id:"name",  header:["Название"]},
 				{id:"action",   header:["Open"], template:"<img src='./lock.png' style='display: block; margin-left: auto; margin-right: auto; margin-top:5px;' class='opened'/>"},
-				{id:"history",  header:["History"]},
+				{id:"history", template:"<input type='button' class='webix_button historyViewClass' value='View'>", header:["History"]},
 				{id:"delete", template:"<input type='button' class='webix_button delete_button' value='Remove'>", header:["Delete"]}
 				],
 				onClick:{ 
 					"opened":function(event, cell, target){
-					webix.message("Opened row: "+cell.row); 
-					return false;
+						// add method
+						webix.message("Opened row: "+cell.row); 
+						return false;
 					},
 					"delete_button":function(event, cell, target){
-					webix.message("Deleted row: "+cell.row); 
-					return false;
-					}
+						// add method
+						webix.message("Deleted row: " + cell.row); 
+						return false;
+					},
+					"historyViewClass":function(event, cell, target){
+						loadHistory(cell);
+						return false;
+					},
+					
 				},
+			},
+			{
+				id:"create", view:"form",  elements:[
+					{view:"button", width:"500", value:"Create new lock", id:"btn", click:function(){
+							 $$("createForm").show();
+					}}
+				]
 			}
 			]
 				
