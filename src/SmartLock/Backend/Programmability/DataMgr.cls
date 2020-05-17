@@ -13,4 +13,16 @@ ClassMethod AddUser(UserObj As SmartLock.Backend.Tables.Users) As %Status
     return status
 }
 
+ClassMethod AddLockToUser(UserId As %Integer, LockId As %Integer, LockLabelByUser As %String) As %Status
+{
+    set obj = ##class(SmartLock.Backend.Tables.Users2Locks).%New()
+
+    if UserId { do obj.UserFKSetObjectId(UserId) }
+    if LockId { do obj.LockFKSetObjectId(LockId) }
+    if $LENGTH(LockLabelByUser)>0 { set obj.UserLabelForLock = LockLabelByUser }
+
+    set status = obj.%Save()
+    return status
+}
+
 }

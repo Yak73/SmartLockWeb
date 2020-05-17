@@ -27,4 +27,17 @@ ClassMethod IsCorrectUserLoginAndPwd(Login As %String, Pwd As %String) As %Boole
     }
 }
 
+ClassMethod IsUnicUserToLock(UserId As %Integer, LockId As %Integer)
+{
+    &sql(SELECT COUNT(1) INTO :exist FROM SmartLock_Backend_Tables.Users2Locks WHERE UserFK = :UserId AND LockFK = :LockId)
+    if ('exist)
+    {
+        return 1
+    }
+    else
+    {
+        return 0
+    }
+}
+
 }

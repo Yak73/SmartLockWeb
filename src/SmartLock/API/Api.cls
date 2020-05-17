@@ -66,4 +66,40 @@ ClassMethod GetListOfLocksForUser(UserLogin) As %Status
     Return $$$OK
 }
 
+ClassMethod AddLockToUser(UserLogin As %String, LockLogin As %String, LockPassword As %String, LockLabelByUser As %String) As %Status
+{
+    set error = ""
+    set LockId = ##class(SmartLock.Backend.Programmability.Select).GetLockIdByLoginAndPwd(LockLogin, LockPassword)
+    set UserId = ##class(SmartLock.Backend.Programmability.Select).GetUserIdByLogin(UserLogin)
+    if (LockId && UserId)
+    {
+        set IsUnic = ##class(SmartLock.Backend.Programmability.Check).IsUnicUserToLock(UserId, LockId)
+        if IsUnic 
+        {
+            set CorrectAdd = ##class(SmartLock.Backend.Programmability.DataMgr).AddLockToUser(UserId, LockId, LockLabelByUser)
+            if (CorrectAdd)
+            {
+                write 1
+                set result = 1
+            }
+            else { set error = "Ошибка при добавлении" }
+        }
+        else { set error = "Такой замок уже есть у пользователя" } 
+        
+    }     
+    else
+    {   
+        if ('LockId) { set error = "Неправильный логин или пароль замка" }
+        if ('UserId) { set error = "Ошибка с поиском пользователя" }
+    }
+
+    if $LENGTH(error) > 0 
+    {
+        write error
+        set result = -1
+    }
+
+    Return result
+}
+
 }
