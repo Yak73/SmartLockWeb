@@ -7,6 +7,9 @@ XData UrlMap [ XMLNamespace = "http://www.intersystems.com/urlmap" ]
   <Route Url="/registration" Method="POST" Call="Registration"/>
   <Route Url="/authorization" Method="POST" Call="Authorization"/>
   <Route Url="/test" Method="GET" Call="Test"/>
+  <Route Url="/locks-table-for-user" Method="GET" Call="GetListOfLocksForUser"/>
+  <Route Url="/create-lock" Method="POST" Call="AddLockToUser"/>
+  <Route Url="/get-history" Method="GET" Call="ViewHistory"/>
 </Routes>
 }
 
