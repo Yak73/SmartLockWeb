@@ -17,7 +17,8 @@ ClassMethod Test() As %Status
     Return $$$OK
 }
 
-/// Регистрирует юзера с логином login и паролем password, если логин свободен, иначе выводит "Логин занят"
+/// Регистрирует (add) юзера с логином login и паролем password
+/// Проверка на ошибку: если логин занят выводит "Логин занят"
 ClassMethod Registration() As %Status
 {
     set obj = {}
@@ -37,7 +38,8 @@ ClassMethod Registration() As %Status
     Return result
 }
 
-/// "Возвращает" (печатает) для юзера с логином login и паролем password "ok" если данные корректны, и "Неправильный Логин или Пароль" иначе
+/// Авторизует (check) юзера с логином login и паролем password
+/// Проверка на ошибку: если логин или пароль неправильный выводит "Неправильный логин или пароль"
 ClassMethod Authorization() As %Status
 {
     set obj = {}
@@ -51,14 +53,15 @@ ClassMethod Authorization() As %Status
     }     
     else
     {   
-        write "Неправильный Логин или Пароль"
+        write "Неправильный логин или пароль"
         set result = -1
     }
 
     Return result
 }
 
-/// "Возвращает" (печатает) для юзера с логином UserLogin список его замков (элемент списка - пользовательское название конкретного замка) 
+/// "Возвращает" (get) для юзера с логином UserLogin список его замков (элемент списка - пользовательское название конкретного замка) 
+/// return list[ {"LockName": LockName}, ...]
 ClassMethod GetListOfLocksForUser(UserLogin) As %Status
 {
     do ##class(SmartLock.Backend.Programmability.Select).SelectFromUsers2LocksForUser(.ListOfLocksForUser, UserLogin)
@@ -66,6 +69,8 @@ ClassMethod GetListOfLocksForUser(UserLogin) As %Status
     Return $$$OK
 }
 
+/// Добавляет (add) связь с замком для юзера 
+/// Проверки на ошибку: *нет такого замка *нет такого юзера *для этого юзера уже есть этот замок *общая ошибка при добавлении
 ClassMethod AddLockToUser(UserLogin As %String, LockLogin As %String, LockPassword As %String, LockLabelByUser As %String) As %Status
 {
     set error = ""
@@ -100,6 +105,15 @@ ClassMethod AddLockToUser(UserLogin As %String, LockLogin As %String, LockPasswo
     }
 
     Return result
+}
+
+/// "Возвращает" (get) историю действий с замком для юзера
+/// return list[ {"actionDesc": actionDesc,"actionDate": actionDate}, ...]
+ClassMethod ViewHistory(UserLogin As %String, LockLabel As %String) As %Status
+{
+    do ##class(SmartLock.Backend.Programmability.Select).SelectFromActionHistory(.ListOfActions, UserLogin, LockLabel)
+    write ListOfActions.%ToJSON()
+    Return $$$OK
 }
 
 }

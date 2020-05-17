@@ -1,7 +1,7 @@
 Class SmartLock.Backend.Tables.Actions Extends %Persistent
 {
 
-Property Description As %String;
+Property ActionDescription As %String;
 
 Storage Default
 {
@@ -10,7 +10,7 @@ Storage Default
 <Value>%%CLASSNAME</Value>
 </Value>
 <Value name="2">
-<Value>Description</Value>
+<Value>ActionDescription</Value>
 </Value>
 </Data>
 <DataLocation>^SmartLock.Backend77EE.ActionsD</DataLocation>

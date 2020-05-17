@@ -47,4 +47,30 @@ ClassMethod GetUserIdByLogin(UserLogin As %String) As %Integer
     return userid
 }
 
+ClassMethod SelectFromActionHistory(ListOfActions, UserLogin As %String, LockLabel As %String)
+{
+        set ListOfActions = []
+        &sql(
+            DECLARE MyCursor CURSOR FOR
+            SELECT ah.ActionFK->ActionDescription, ah.ActionDate 
+                INTO :actionDesc, :actionDate
+            FROM SmartLock_Backend_Tables.ActionHistory as ah
+            JOIN SmartLock_Backend_Tables.Users2Locks as u2l 
+                ON u2l.LockFK = ah.LockFK
+            WHERE ah.UserFK->UserLogin = :UserLogin AND u2l.UserLabelForLock = :LockLabel
+        )
+        &sql(OPEN MyCursor)
+        
+        FOR { 
+            &sql(FETCH MyCursor)
+            if (SQLCODE) quit
+
+            set obj = {"actionDesc": (actionDesc), "actionDate": (actionDate)}
+            do ListOfActions.%Push(obj)
+            }
+            &sql(CLOSE MyCursor)
+            
+            quit
+}
+
 }

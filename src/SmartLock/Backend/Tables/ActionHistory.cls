@@ -7,7 +7,7 @@ Property LockFK As SmartLock.Backend.Tables.Locks;
 
 Property ActionFK As SmartLock.Backend.Tables.Actions;
 
-Property ActionDate As %DateTime;
+Property ActionDate As %DateTime [ InitialExpression = {$ZDATETIME($NOW(), "YYYYMMDD")} ];
 
 Storage Default
 {
@@ -16,25 +16,16 @@ Storage Default
 <Value>%%CLASSNAME</Value>
 </Value>
 <Value name="2">
-<Value>ActionDate</Value>
-</Value>
-<Value name="3">
-<Value>User</Value>
-</Value>
-<Value name="4">
-<Value>Lock</Value>
-</Value>
-<Value name="5">
-<Value>Action</Value>
-</Value>
-<Value name="6">
 <Value>UserFK</Value>
 </Value>
-<Value name="7">
+<Value name="3">
 <Value>LockFK</Value>
 </Value>
-<Value name="8">
+<Value name="4">
 <Value>ActionFK</Value>
+</Value>
+<Value name="5">
+<Value>ActionDate</Value>
 </Value>
 </Data>
 <DataLocation>^SmartLock.Ba77EE.ActionHistoryD</DataLocation>
