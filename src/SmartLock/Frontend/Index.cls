@@ -60,19 +60,13 @@ ClassMethod body() As %Status
 								var body = response.text();
 									if(body==1){
 										webix.message("Successfully logged in");
-										// a href => main page
+										location.href='SmartLock.FrontEnd.Main.cls';
 									} else{
 										webix.message("Failed to log in");
 									}
 								}
 							);
-						}},
-						{view:"button", width:"500", value:"Enter", id:"btn2", click:function(){
-
-							location.href='SmartLock.FrontEnd.Main.cls';
-
 						}}
-				
 					]
 				 },
 				 {
