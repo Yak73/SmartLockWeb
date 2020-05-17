@@ -30,6 +30,30 @@ ClassMethod body() As %Status
    &JS<
     <script type="text/javascript">
 
+		function deleteLock(cell){
+			var lockName = locksTable.find(x => x.id == cell.row).name;
+		
+			webix.ajax().get("/smartlockapi/delete-lock", lockName).then(function(response){
+					if(body == 1){
+									webix.message("Successfully deleted");
+								} else {
+									webix.message("Failed to delete");
+								}
+			});
+		}
+		
+		function openLock(cell){
+			var lockName = locksTable.find(x => x.id == cell.row).name;
+		
+			webix.ajax().get("/smartlockapi/open-lock", lockName).then(function(response){
+					if(body == 1){
+									webix.message("Successfully opened");
+								} else {
+									webix.message("Failed to open");
+								}
+			});
+		}
+		
 		function loadHistory(cell){
 			var lockName = locksTable.find(x => x.id == cell.row).name;
 		
@@ -131,13 +155,11 @@ ClassMethod body() As %Status
 				],
 				onClick:{ 
 					"opened":function(event, cell, target){
-						// add method
-						webix.message("Opened row: "+cell.row); 
+						openLock(cell);
 						return false;
 					},
 					"delete_button":function(event, cell, target){
-						// add method
-						webix.message("Deleted row: " + cell.row); 
+						deleteLock(cell);
 						return false;
 					},
 					"historyViewClass":function(event, cell, target){
@@ -157,6 +179,7 @@ ClassMethod body() As %Status
 			]
 				
 		};
+		
     
     webix.ready(function(){
       webix.ui(ui_template);
