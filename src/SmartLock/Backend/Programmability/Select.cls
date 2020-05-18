@@ -47,6 +47,17 @@ ClassMethod GetUserIdByLogin(UserLogin As %String) As %Integer
     return userid
 }
 
+ClassMethod GetUser2LocksIdByLogin(UserLogin As %String, LockLabel As %String) As %Integer
+{
+    &sql(
+            SELECT id
+            INTO :u2lid
+            FROM SmartLock_Backend_Tables.Users2Locks as u2l
+            WHERE u2l.UserFK->UserLogin = :UserLogin AND u2l.UserLabelForLock = :LockLabel
+        )
+    return u2lid
+}
+
 ClassMethod SelectFromActionHistory(ListOfActions, UserLogin As %String, LockLabel As %String)
 {
         set ListOfActions = []

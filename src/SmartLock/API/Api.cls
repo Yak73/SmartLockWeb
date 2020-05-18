@@ -9,6 +9,7 @@ XData UrlMap [ XMLNamespace = "http://www.intersystems.com/urlmap" ]
   <Route Url="/test" Method="GET" Call="Test"/>
   <Route Url="/locks-table-for-user" Method="GET" Call="GetListOfLocksForUser"/>
   <Route Url="/create-lock" Method="POST" Call="AddLockToUser"/>
+  <Route Url="/delete-lock" Method="POST" Call="DeleteLockToUser"/>
   <Route Url="/get-history" Method="GET" Call="ViewHistory"/>
 </Routes>
 }
@@ -104,6 +105,25 @@ ClassMethod AddLockToUser(UserLogin As %String, LockLogin As %String, LockPasswo
     if $LENGTH(error) > 0 
     {
         write error
+        set result = -1
+    }
+
+    Return result
+}
+
+/// Удаляет (delete) связь с замком для юзера 
+ClassMethod DeleteLockToUser(UserLogin As %String, LockLabelByUser As %String) As %Status
+{
+    
+    set correctDel = ##class(SmartLock.Backend.Programmability.DataMgr).DeleteLockToUser(UserLogin, LockLabelByUser)
+    if (correctDel)
+    {
+        write 1
+        set result = 1
+    }     
+    else
+    {
+        write "Ошибка удаления"
         set result = -1
     }
 

@@ -25,4 +25,12 @@ ClassMethod AddLockToUser(UserId As %Integer, LockId As %Integer, LockLabelByUse
     return status
 }
 
+ClassMethod DeleteLockToUser(UserLogin As %String, LockLabelByUser As %String) As %Status
+{
+    set idToDel = ##class(SmartLock.Backend.Programmability.Select).GetUser2LocksIdByLogin(UserLogin, LockLabelByUser)
+    set status = ##class(SmartLock.Backend.Tables.Users2Locks).%DeleteId(idToDel)
+
+    return status
+}
+
 }
