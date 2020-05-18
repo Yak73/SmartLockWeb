@@ -31,7 +31,8 @@ ClassMethod body() As %Status
     <script type="text/javascript">
 
 		function deleteLock(cell){
-			var lockName = locksTable.find(x => x.id == cell.row).name;
+		var lockRow= locksTable.find(x => x.id == cell.row);
+			var lockName = lockRow.name;
 		
 			webix.ajax().get("/smartlockapi/delete-lock", lockName).then(function(response){
 					if(body == 1){
