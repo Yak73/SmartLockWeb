@@ -31,7 +31,7 @@ ClassMethod body() As %Status
     <script type="text/javascript">
 
 		function deleteLock(cell){
-		var lockRow= locksTable.find(x => x.id == cell.row);
+			var lockRow= locksTable.find(x => x.id == cell.row);
 			var lockName = lockRow.name;
 		
 			webix.ajax().get("/smartlockapi/delete-lock", lockName).then(function(response){
@@ -44,7 +44,8 @@ ClassMethod body() As %Status
 		}
 		
 		function openLock(cell){
-			var lockName = locksTable.find(x => x.id == cell.row).name;
+			var lockRow= locksTable.find(x => x.id == cell.row);
+			var lockName = lockRow.name;
 		
 			webix.ajax().get("/smartlockapi/open-lock", lockName).then(function(response){
 					if(body == 1){
@@ -56,7 +57,8 @@ ClassMethod body() As %Status
 		}
 		
 		function loadHistory(cell){
-			var lockName = locksTable.find(x => x.id == cell.row).name;
+			var lockRow= locksTable.find(x => x.id == cell.row);
+			var lockName = lockRow.name;
 		
 			webix.ajax().get("/smartlockapi/get-history", lockName).then(function(response){
 					$$("historyView").parse(response.json());
