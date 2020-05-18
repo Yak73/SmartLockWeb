@@ -33,4 +33,16 @@ ClassMethod DeleteLockToUser(UserLogin As %String, LockLabelByUser As %String) A
     return status
 }
 
+ClassMethod AddOpenActionInHistory(UserId, LockId)
+{
+    set obj = ##class(SmartLock.Backend.Tables.ActionHistory).%New()
+
+    if UserId { do obj.UserFKSetObjectId(UserId) }
+    if LockId { do obj.LockFKSetObjectId(LockId) }
+    do obj.ActionFKSetObjectId(1) // Open Action has id = 1
+
+    set status = obj.%Save()
+    return status
+}
+
 }

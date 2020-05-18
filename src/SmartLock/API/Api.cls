@@ -65,7 +65,7 @@ ClassMethod Authorization() As %Status
 }
 
 /// "Возвращает" (get) для юзера с логином UserLogin список его замков (элемент списка - пользовательское название конкретного замка) 
-/// return list[ {"LockName": LockName}, ...]
+/// return list[ {"id": id, "name": LockName}, ...]
 ClassMethod GetListOfLocksForUser(UserLogin) As %Status
 {
     do ##class(SmartLock.Backend.Programmability.Select).SelectFromUsers2LocksForUser(.ListOfLocksForUser, UserLogin)
@@ -137,6 +137,34 @@ ClassMethod ViewHistory(UserLogin As %String, LockLabel As %String) As %Status
     do ##class(SmartLock.Backend.Programmability.Select).SelectFromActionHistory(.ListOfActions, UserLogin, LockLabel)
     write ListOfActions.%ToJSON()
     Return $$$OK
+}
+
+/// "Открывает" замок 
+ClassMethod OpenLock(UserLogin As %String, LockLabel As %String) As %Status
+{
+    set LockId = ##class(SmartLock.Backend.Programmability.Select).GetLockIdByUserLoginAndUserLabel(UserLogin, LockLabel)
+    set UserId = ##class(SmartLock.Backend.Programmability.Select).GetUserIdByLogin(UserLogin)
+    if (LockId && UserId)
+    {
+        //set OpenSuc = OpenLockFunc()
+        set LogSuc = ##class(SmartLock.Backend.Programmability.DataMgr).AddOpenActionInHistory(UserId, LockId)
+        if (LogSuc)
+        {
+            write 1
+            set result = 1
+        }     
+        else
+        {
+            write "Ошибка при открытии"
+            set result = -1
+        }
+    }
+    else{
+        write "Ошибка при поиске замка или пользователя"
+        set result = -1
+    }
+        
+    Return result
 }
 
 }
