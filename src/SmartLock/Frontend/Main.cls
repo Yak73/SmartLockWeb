@@ -30,7 +30,13 @@ ClassMethod body() As %Status
 {
    &JS<
     <script type="text/javascript">
-
+    
+	var get=location.search;
+	var userLogin;
+	if(get!=''){
+		userLogin = (get.substr(1).split('&'))[0].split('=')[1];
+	}
+	
 		function deleteLock(cell){
 			for(var i=0; i &lt; locksTable.length; i++){
 				if(locksTable[i].id === cell.row){
@@ -91,7 +97,7 @@ ClassMethod body() As %Status
 			position:"center",
 			body:
 			{view:"form", id:"editform", elements:[
-				{ view:"text", label:"Login", name:"UserLogin"},
+				{ view:"text", label:"Login", name:"UserLogin", value : userLogin, readonly : true},
 				{ view:"text", width:"400", label:"New lock's login", name:"LockLogin"},
 				{ view:"text", label:"New lock's name", name:"LockLabelByUser"},
 				{ view:"text", label:"Password", name:"LockPassword"},
