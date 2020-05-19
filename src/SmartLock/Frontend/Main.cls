@@ -19,6 +19,7 @@ ClassMethod header() As %Status
        <link rel="stylesheet" type="text/css" href="webix/webix.min.css">
        <link rel="stylesheet" href="https://cdn.materialdesignicons.com/2.7.94/css/materialdesignicons.css?v=7.2.0" type="text/css" charset="utf-8">
      </head>
+	 <body>
 
  >
  
@@ -31,8 +32,11 @@ ClassMethod body() As %Status
     <script type="text/javascript">
 
 		function deleteLock(cell){
-			var lockRow= locksTable.find(x => x.id == cell.row);
-			var lockName = lockRow.name;
+			for(var i=0; i &lt; locksTable.length; i++){
+				if(locksTable[i].id === cell.row){
+					var lockName = locksTable[i].name;
+				}
+			}
 		
 			webix.ajax().get("/smartlockapi/delete-lock", lockName).then(function(response){
 					if(body == 1){
@@ -44,9 +48,12 @@ ClassMethod body() As %Status
 		}
 		
 		function openLock(cell){
-			var lockRow= locksTable.find(x => x.id == cell.row);
-			var lockName = lockRow.name;
-		
+			for(var i=0; i &lt; locksTable.length; i++){
+				if(locksTable[i].id === cell.row){
+					var lockName = locksTable[i].name;
+				}
+			}
+
 			webix.ajax().get("/smartlockapi/open-lock", lockName).then(function(response){
 					if(body == 1){
 									webix.message("Successfully opened");
@@ -57,9 +64,12 @@ ClassMethod body() As %Status
 		}
 		
 		function loadHistory(cell){
-			var lockRow= locksTable.find(x => x.id == cell.row);
-			var lockName = lockRow.name;
-		
+			for(var i=0; i &lt; locksTable.length; i++){
+				if(locksTable[i].id === cell.row){
+					var lockName = locksTable[i].name;
+				}
+			}
+
 			webix.ajax().get("/smartlockapi/get-history", lockName).then(function(response){
 					$$("historyView").parse(response.json());
 					$$("historyView").show();
@@ -117,7 +127,7 @@ ClassMethod body() As %Status
 			view:"window",
 			id:"historyView",
 			head:"History",
-		//	data:historyTableData,
+			//data:historyTableData,
 			modal:true,
 			position:"center",
 			body:
