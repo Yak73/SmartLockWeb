@@ -60,7 +60,8 @@ ClassMethod body() As %Status
 								var body = response.text();
 									if(body==1){
 										webix.message("Successfully logged in");
-										location.href='SmartLock.FrontEnd.Main.cls';
+										var mainUrl = 'SmartLock.FrontEnd.Main.cls'+'?user=' + values.login;
+										location.href = mainUrl;
 									} else{
 										webix.message("Failed to log in");
 									}
