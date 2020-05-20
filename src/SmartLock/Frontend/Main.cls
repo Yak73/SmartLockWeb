@@ -51,7 +51,7 @@ ClassMethod body() As %Status
 			webix.ajax().get("/smartlockapi/delete-lock", 'LockLabelByUser='+ lockName + '&UserLogin=' + userLogin).then(function(response){
 						if(body == 1){
 							webix.message("Successfully deleted");
-							$$("mainTable").refresh();
+							$$("mainTable").load("/smartlockapi/locks-table-for-user", "UserLogin=" + userLogin);
 						} else {
 							webix.message("Failed to delete");
 						}
@@ -122,7 +122,7 @@ ClassMethod body() As %Status
 							var body = response.text();
 								if(body == 1){
 									webix.message("Successfully created");
-									$$("mainTable").refresh();
+									$$("mainTable").load("/smartlockapi/locks-table-for-user", "UserLogin=" + userLogin);
 								} else {
 									webix.message("Failed to create");
 								}
