@@ -51,6 +51,7 @@ ClassMethod body() As %Status
 			webix.ajax().get("/smartlockapi/delete-lock", 'LockLabelByUser='+ lockName + '&UserLogin=' + userLogin).then(function(response){
 						if(body == 1){
 							webix.message("Successfully deleted");
+							$$("mainTable").refresh();
 						} else {
 							webix.message("Failed to delete");
 						}
@@ -121,6 +122,7 @@ ClassMethod body() As %Status
 							var body = response.text();
 								if(body == 1){
 									webix.message("Successfully created");
+									$$("mainTable").refresh();
 								} else {
 									webix.message("Failed to create");
 								}
@@ -139,7 +141,8 @@ ClassMethod body() As %Status
 		});
 		
 		webix.ui({
-			width:"1000",
+			width:"700",
+			height:"500",
 			view:"window",
 			id:"historyView",
 			head:"History",
@@ -147,10 +150,10 @@ ClassMethod body() As %Status
 			modal:true,
 			position:"center",
 			body:
-			{ view:"form",width:"1000", rows:[
+			{ view:"form",width:"700", rows:[
 				{view:"datatable", id:"historyForm", columns:[
-					{id:"actionDesc",  header:["Action"]},
-					{id:"actionDate",    header:["Date"]},
+					{id:"actionDesc",width:"350",  header:["Action"]},
+					{id:"actionDate", width:"350",   header:["Date"]},
 				]
 				},
 				{ view:"button", value:"Cancel", click:function(){
