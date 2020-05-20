@@ -39,7 +39,7 @@ ClassMethod body() As %Status
 	var locksTable;
 	
 		function deleteLock(cell){
-			locksTable = $$(table).serialize();
+			locksTable = $$("mainTable").serialize();
 			var lockName;
 			
 			for(var i=0; i &lt; locksTable.length; i++){
@@ -58,7 +58,7 @@ ClassMethod body() As %Status
 		}
 		
 		function openLock(cell){
-			locksTable = $$(table).serialize();
+			locksTable = $$("mainTable").serialize();
 			var lockName;
 			
 			for(var i=0; i &lt; locksTable.length; i++){
@@ -77,7 +77,7 @@ ClassMethod body() As %Status
 		}
 		
 		function loadHistory(cell){
-			locksTable = $$(table).serialize();
+			locksTable = $$("mainTable").serialize();
 			var lockName;
 		
 			for(var i=0; i &lt; locksTable.length; i++){
@@ -165,7 +165,7 @@ ClassMethod body() As %Status
 			rows:[
 			{	
 				height:"200",
-				id:"table",
+				id:"mainTable",
 				view:"datatable",
 				save:"rest->/someUrl",
 				// add user's login to params
