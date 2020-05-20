@@ -139,7 +139,7 @@ ClassMethod body() As %Status
 		});
 		
 		webix.ui({
-			width:"400",
+			width:"1000",
 			view:"window",
 			id:"historyView",
 			head:"History",
@@ -147,10 +147,10 @@ ClassMethod body() As %Status
 			modal:true,
 			position:"center",
 			body:
-			{ view:"form", rows:[
+			{ view:"form",width:"1000", rows:[
 				{view:"datatable", id:"historyForm", columns:[
-					{id:"actionDesc",  header:["Date"]},
-					{id:"actionDate",    header:["Action"]},
+					{id:"actionDesc",  header:["Action"]},
+					{id:"actionDate",    header:["Date"]},
 				]
 				},
 				{ view:"button", value:"Cancel", click:function(){
