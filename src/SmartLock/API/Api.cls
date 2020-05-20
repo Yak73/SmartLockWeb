@@ -9,7 +9,7 @@ XData UrlMap [ XMLNamespace = "http://www.intersystems.com/urlmap" ]
   <Route Url="/test" Method="GET" Call="Test"/>
   <Route Url="/locks-table-for-user" Method="GET" Call="GetListOfLocksForUser"/>
   <Route Url="/create-lock" Method="POST" Call="AddLockToUser"/>
-  <Route Url="/delete-lock" Method="POST" Call="DeleteLockToUser"/>
+  <Route Url="/delete-lock" Method="GET" Call="DeleteLockToUser"/>
   <Route Url="/history-table" Method="GET" Call="ViewHistory"/>
   <Route Url="/open-lock" Method="GET" Call="OpenLock"/>
 </Routes>
