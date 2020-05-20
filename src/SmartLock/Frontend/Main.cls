@@ -87,8 +87,8 @@ ClassMethod body() As %Status
 			}
 
 			webix.ajax().get("/smartlockapi/history-table","LockLabel="+ lockName + "&UserLogin=" + userLogin).then(function(response){
-					$$("historyView").parse(response.json());
-					$$("historyView").show();
+					$$("historyForm").parse(response.json());
+					$$("historyForm").show();
 			});
 		}
 		
