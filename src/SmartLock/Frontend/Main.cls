@@ -160,7 +160,7 @@ ClassMethod body() As %Status
 				save:"rest->/someUrl",
 				// add user's login to params
 				url:function(){
-					return webix.ajax().get("/smartlockapi/locks-table-for-user", "userLogin=" + userLogin);
+					return webix.ajax().get("/smartlockapi/locks-table-for-user", "UserLogin=" + userLogin);
 				},
 				autoConfig:true,
 				// remove, must download from url, need to test
