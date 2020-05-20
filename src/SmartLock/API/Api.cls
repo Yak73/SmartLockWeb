@@ -11,6 +11,7 @@ XData UrlMap [ XMLNamespace = "http://www.intersystems.com/urlmap" ]
   <Route Url="/create-lock" Method="POST" Call="AddLockToUser"/>
   <Route Url="/delete-lock" Method="POST" Call="DeleteLockToUser"/>
   <Route Url="/history-table" Method="GET" Call="ViewHistory"/>
+  <Route Url="/open-lock" Method="GET" Call="OpenLock"/>
 </Routes>
 }
 
