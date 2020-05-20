@@ -44,13 +44,13 @@ ClassMethod body() As %Status
 				}
 			}
 		
-			webix.ajax().get("/smartlockapi/delete-lock", lockName).then(function(response){
-					if(body == 1){
-									webix.message("Successfully deleted");
-								} else {
-									webix.message("Failed to delete");
-								}
-			});
+			webix.ajax().get("/smartlockapi/delete-lock", 'LockLabelByUser='+ lockName + '&UserLogin=' + userLogin).then(function(response){
+						if(body == 1){
+							webix.message("Successfully deleted");
+						} else {
+							webix.message("Failed to delete");
+						}
+				});
 		}
 		
 		function openLock(cell){
