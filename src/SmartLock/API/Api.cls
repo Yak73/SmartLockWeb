@@ -67,8 +67,10 @@ ClassMethod Authorization() As %Status
 
 /// "Возвращает" (get) для юзера с логином UserLogin список его замков (элемент списка - пользовательское название конкретного замка) 
 /// return list[ {"id": id, "name": LockName}, ...]
-ClassMethod GetListOfLocksForUser(UserLogin As %String) As %Status
+ClassMethod GetListOfLocksForUser() As %Status
 {
+    set UserLogin = %request.Get("UserLogin")
+
     do ##class(SmartLock.Backend.Programmability.Select).SelectFromUsers2LocksForUser(.ListOfLocksForUser, UserLogin)
     write ListOfLocksForUser.%ToJSON()
     Return $$$OK
@@ -76,8 +78,13 @@ ClassMethod GetListOfLocksForUser(UserLogin As %String) As %Status
 
 /// Добавляет (add) связь с замком для юзера 
 /// Проверки на ошибку: *нет такого замка *нет такого юзера *для этого юзера уже есть этот замок *общая ошибка при добавлении
-ClassMethod AddLockToUser(UserLogin As %String, LockLogin As %String, LockPassword As %String, LockLabelByUser As %String) As %Status
+ClassMethod AddLockToUser() As %Status
 {
+    set UserLogin = %request.Get("UserLogin")
+    set LockLogin = %request.Get("LockLogin")
+    set LockLabelByUser = %request.Get("LockLabelByUser")
+    set LockPassword = %request.Get("LockPassword")
+
     set error = ""
     set LockId = ##class(SmartLock.Backend.Programmability.Select).GetLockIdByLoginAndPwd(LockLogin, LockPassword)
     set UserId = ##class(SmartLock.Backend.Programmability.Select).GetUserIdByLogin(UserLogin)
@@ -113,9 +120,11 @@ ClassMethod AddLockToUser(UserLogin As %String, LockLogin As %String, LockPasswo
 }
 
 /// Удаляет (delete) связь с замком для юзера 
-ClassMethod DeleteLockToUser(UserLogin As %String, LockLabelByUser As %String) As %Status
+ClassMethod DeleteLockToUser() As %Status
 {
-    
+    set UserLogin = %request.Get("UserLogin")
+    set LockLabelByUser = %request.Get("LockLabelByUser")
+
     set correctDel = ##class(SmartLock.Backend.Programmability.DataMgr).DeleteLockToUser(UserLogin, LockLabelByUser)
     if (correctDel)
     {
@@ -133,16 +142,22 @@ ClassMethod DeleteLockToUser(UserLogin As %String, LockLabelByUser As %String) A
 
 /// "Возвращает" (get) историю действий с замком для юзера
 /// return list[ {"actionDesc": actionDesc,"actionDate": actionDate}, ...]
-ClassMethod ViewHistory(UserLogin As %String, LockLabel As %String) As %Status
+ClassMethod ViewHistory() As %Status
 {
+    set UserLogin = %request.Get("UserLogin")
+    set LockLabel = %request.Get("LockLabel")
+
     do ##class(SmartLock.Backend.Programmability.Select).SelectFromActionHistory(.ListOfActions, UserLogin, LockLabel)
     write ListOfActions.%ToJSON()
     Return $$$OK
 }
 
 /// "Открывает" замок 
-ClassMethod OpenLock(UserLogin As %String, LockLabel As %String) As %Status
+ClassMethod OpenLock() As %Status
 {
+    set UserLogin = %request.Get("UserLogin")
+    set LockLabel = %request.Get("LockLabel")
+
     set LockId = ##class(SmartLock.Backend.Programmability.Select).GetLockIdByUserLoginAndUserLabel(UserLogin, LockLabel)
     set UserId = ##class(SmartLock.Backend.Programmability.Select).GetUserIdByLogin(UserLogin)
     if (LockId && UserId)

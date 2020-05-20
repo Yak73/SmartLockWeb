@@ -82,11 +82,12 @@ ClassMethod body() As %Status
 			});
 		}
 		
-		var locksTable=[
+		/* var locksTable=[
 		{id:"1", name:"Lock_1", action:"", history:"View"},
 		{id:"2", name:"Lock_2", action:"", history:"View"},
 		{id:"3", name:"Lock_3", action:"", history:"View"}
-		]	
+		]	*/
+		var locksTable
 		
 		webix.ui({
 			width:"400",
@@ -164,10 +165,10 @@ ClassMethod body() As %Status
 				},
 				autoConfig:true,
 				// remove, must download from url, need to test
-				// data:locksTable ,
+				data:locksTable ,
 				css:"webix_data_border webix_header_border",
 				columns:[
-				{id:"name",  header:["Название"]},
+				{id:"name",  header:["Name"]},
 				{id:"action",   header:["Open"], template:"<img src='./lock.png' style='display: block; margin-left: auto; margin-right: auto; margin-top:5px;' class='opened'/>"},
 				{id:"history", template:"<input type='button' class='webix_button historyViewClass' value='View'>", header:["History"]},
 				{id:"delete", template:"<input type='button' class='webix_button delete_button' value='Remove'>", header:["Delete"]}
