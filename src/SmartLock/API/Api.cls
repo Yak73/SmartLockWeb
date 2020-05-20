@@ -66,7 +66,7 @@ ClassMethod Authorization() As %Status
 
 /// "Возвращает" (get) для юзера с логином UserLogin список его замков (элемент списка - пользовательское название конкретного замка) 
 /// return list[ {"id": id, "name": LockName}, ...]
-ClassMethod GetListOfLocksForUser(UserLogin) As %Status
+ClassMethod GetListOfLocksForUser(UserLogin As %String) As %Status
 {
     do ##class(SmartLock.Backend.Programmability.Select).SelectFromUsers2LocksForUser(.ListOfLocksForUser, UserLogin)
     write ListOfLocksForUser.%ToJSON()
