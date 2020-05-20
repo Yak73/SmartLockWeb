@@ -159,12 +159,12 @@ ClassMethod body() As %Status
 				view:"datatable",
 				save:"rest->/someUrl",
 				// add user's login to params
-				url:function(params){
-					return webix.ajax().get("/smartlockapi/locks-table-for-user", params);
+				url:function(){
+					return webix.ajax().get("/smartlockapi/locks-table-for-user", "login=" + userLogin);
 				},
 				autoConfig:true,
 				// remove, must download from url, need to test
-				data:locksTable ,
+				// data:locksTable ,
 				css:"webix_data_border webix_header_border",
 				columns:[
 				{id:"name",  header:["Название"]},
