@@ -60,7 +60,7 @@ ClassMethod body() As %Status
 				}
 			}
 
-			webix.ajax().get("/smartlockapi/open-lock", lockName).then(function(response){
+			webix.ajax().get("/smartlockapi/open-lock", 'LockLabel='+ lockName + '&UserLogin=' + userLogin).then(function(response){
 					if(body == 1){
 									webix.message("Successfully opened");
 								} else {
