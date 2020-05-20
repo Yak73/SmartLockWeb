@@ -149,7 +149,7 @@ ClassMethod body() As %Status
 			body:
 			{ view:"form", rows:[
 				{view:"datatable", id:"historyForm", columns:[
-					{id:"historyView",  header:["Date"]},
+					{id:"actionDesc",  header:["Date"]},
 					{id:"actionDate",    header:["Action"]},
 				]
 				},
