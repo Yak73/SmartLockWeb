@@ -30,17 +30,21 @@ ClassMethod body() As %Status
 {
    &JS<
     <script type="text/javascript">
-    
 	var get=location.search;
 	var userLogin;
 	if(get!=''){
 		userLogin = (get.substr(1).split('&'))[0].split('=')[1];
 	}
 	
+	var locksTable;
+	
 		function deleteLock(cell){
+			locksTable = $$(table).serialize();
+			var lockName;
+			
 			for(var i=0; i &lt; locksTable.length; i++){
 				if(locksTable[i].id === cell.row){
-					var lockName = locksTable[i].name;
+					 lockName = locksTable[i].name;
 				}
 			}
 		
@@ -54,9 +58,12 @@ ClassMethod body() As %Status
 		}
 		
 		function openLock(cell){
+			locksTable = $$(table).serialize();
+			var lockName;
+			
 			for(var i=0; i &lt; locksTable.length; i++){
 				if(locksTable[i].id === cell.row){
-					var lockName = locksTable[i].name;
+					 lockName = locksTable[i].name;
 				}
 			}
 
@@ -70,9 +77,12 @@ ClassMethod body() As %Status
 		}
 		
 		function loadHistory(cell){
+			locksTable = $$(table).serialize();
+			var lockName;
+		
 			for(var i=0; i &lt; locksTable.length; i++){
 				if(locksTable[i].id === cell.row){
-					var lockName = locksTable[i].name;
+					 lockName = locksTable[i].name;
 				}
 			}
 
@@ -87,7 +97,6 @@ ClassMethod body() As %Status
 		{id:"2", name:"Lock_2", action:"", history:"View"},
 		{id:"3", name:"Lock_3", action:"", history:"View"}
 		]	*/
-		var locksTable
 		
 		webix.ui({
 			width:"400",
