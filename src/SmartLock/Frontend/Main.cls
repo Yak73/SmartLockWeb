@@ -49,6 +49,7 @@ ClassMethod body() As %Status
 			}
 		
 			webix.ajax().get("/smartlockapi/delete-lock", 'LockLabelByUser='+ lockName + '&UserLogin=' + userLogin).then(function(response){
+					var body = response.text();
 						if(body == 1){
 							webix.message("Successfully deleted");
 							$$("mainTable").load("/smartlockapi/locks-table-for-user", "UserLogin=" + userLogin);
@@ -69,7 +70,8 @@ ClassMethod body() As %Status
 			}
 
 			webix.ajax().get("/smartlockapi/open-lock", 'LockLabel='+ lockName + '&UserLogin=' + userLogin).then(function(response){
-					if(body == 1){
+						var body = response.text();
+						if(body == 1){
 									webix.message("Successfully opened");
 								} else {
 									webix.message("Failed to open");
