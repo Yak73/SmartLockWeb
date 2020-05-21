@@ -181,7 +181,7 @@ ClassMethod body() As %Status
 				css:"webix_data_border webix_header_border",
 				columns:[
 				{id:"name",  header:["Name"]},
-				{id:"action",   header:["Open"], template:"<img src='./lock.png' style='display: block; margin-left: auto; margin-right: auto; margin-top:5px;' class='opened'/>"},
+				{id:"action", template:"<input type='button' class='webix_button opened' value='Open'>", header:["Open"]},
 				{id:"history", template:"<input type='button' class='webix_button historyViewClass' value='View'>", header:["History"]},
 				{id:"delete", template:"<input type='button' class='webix_button delete_button' value='Remove'>", header:["Delete"]}
 				],
