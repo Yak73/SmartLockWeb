@@ -52,7 +52,7 @@ ClassMethod body() As %Status
 					var body = response.text();
 						if(body == 1){
 							webix.message("Successfully deleted");
-							$$("mainTable").load("/smartlockapi/locks-table-for-user", "UserLogin=" + userLogin);
+							$$("mainTable").load("/smartlockapi/locks-table-for-user?UserLogin=" + userLogin);
 						} else {
 							webix.message("Failed to delete");
 						}
@@ -124,7 +124,7 @@ ClassMethod body() As %Status
 							var body = response.text();
 								if(body == 1){
 									webix.message("Successfully created");
-									$$("mainTable").load("/smartlockapi/locks-table-for-user", "UserLogin=" + userLogin);
+									$$("mainTable").load("/smartlockapi/locks-table-for-user?UserLogin=" + userLogin);
 								} else {
 									webix.message("Failed to create");
 								}
